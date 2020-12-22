@@ -1,6 +1,7 @@
 package com.risesun.orderservice;
 
 //import com.risesun.OrderService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -9,8 +10,8 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author admin
  */
 @RestController
-public class OrderServiceImpl/* implements OrderService */{
-//    @Override
+public class OrderController {
+    @GetMapping("/orders")
     public String listOrdersByUserId(Long userId) {
         StringBuilder result = new StringBuilder("userId:" + userId + ", orders=[");
         int orderCount = ThreadLocalRandom.current().nextInt(50);
