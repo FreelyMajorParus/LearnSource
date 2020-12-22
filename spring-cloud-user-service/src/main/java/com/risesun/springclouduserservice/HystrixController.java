@@ -1,22 +1,21 @@
 package com.risesun.springclouduserservice;
 
-import com.netflix.hystrix.HystrixCommandProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import org.risesun.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * 当localhost:8084/orders服务未启动，造成多次调用发生异常时，最终服务被熔断，即使满足num % 2 == 0,也会执行到fallback方法
  */
 @RestController
-public class HystrixController {
+public class HystrixController implements IUserService{
 
     @Autowired
-    private RestTemplate restTemplate;
+    private OrderServiceFeignClient orderServiceFeignClient;
 
     /**
      * HystrixCommandProperties
@@ -34,7 +33,7 @@ public class HystrixController {
         if (num % 2 == 0) {
             return "正常访问";
         }
-        return restTemplate.getForObject("http://localhost:8084/orders", String.class);
+        return orderServiceFeignClient.listOrdersByUserId(1L);
     }
 
     /**
@@ -67,5 +66,10 @@ public class HystrixController {
      */
     public String timeoutFallback(){
         return "slow service, default response!";
+    }
+
+    @Override
+    public String queryOrder(Long userId) {
+        return orderServiceFeignClient.listOrdersByUserId(1L);
     }
 }
