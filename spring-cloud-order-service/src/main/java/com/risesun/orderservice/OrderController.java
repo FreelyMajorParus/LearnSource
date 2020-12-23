@@ -12,6 +12,11 @@ import java.util.concurrent.ThreadLocalRandom;
 public class OrderController implements IOrderService {
     @Override
     public String listOrdersByUserId(Long userId) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         StringBuilder result = new StringBuilder("userId:" + userId + ",\n orders=[");
         int orderCount = ThreadLocalRandom.current().nextInt(50);
         for (int i = 0; i < orderCount; i++) {
@@ -19,5 +24,11 @@ public class OrderController implements IOrderService {
         }
         result.append("]");
         return result.toString();
+    }
+
+    @Override
+    public String insertOrder(Long userId) {
+        int orderCount = ThreadLocalRandom.current().nextInt(50);
+        return "insert success, cost:" + orderCount;
     }
 }

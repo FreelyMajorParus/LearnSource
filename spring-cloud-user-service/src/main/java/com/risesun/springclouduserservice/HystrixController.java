@@ -2,6 +2,7 @@ package com.risesun.springclouduserservice;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import com.risesun.OrderServiceFeignClient;
 import org.risesun.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,5 +72,10 @@ public class HystrixController implements IUserService{
     @Override
     public String queryOrder(Long userId) {
         return orderServiceFeignClient.listOrdersByUserId(1L);
+    }
+
+    @Override
+    public String insertOrder() {
+        return orderServiceFeignClient.insertOrder(1L);
     }
 }
