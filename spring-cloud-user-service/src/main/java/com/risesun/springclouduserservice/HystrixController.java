@@ -2,7 +2,7 @@ package com.risesun.springclouduserservice;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-import com.risesun.OrderServiceFeignClient;
+import com.risesun.IOrderService;
 import org.risesun.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HystrixController implements IUserService{
 
     @Autowired
-    private OrderServiceFeignClient orderServiceFeignClient;
+    private IOrderService orderService;
 
     /**
      * HystrixCommandProperties
@@ -34,7 +34,7 @@ public class HystrixController implements IUserService{
         if (num % 2 == 0) {
             return "正常访问";
         }
-        return orderServiceFeignClient.listOrdersByUserId(1L);
+        return orderService.listOrdersByUserId(1L);
     }
 
     /**
@@ -71,11 +71,11 @@ public class HystrixController implements IUserService{
 
     @Override
     public String queryOrder(Long userId) {
-        return orderServiceFeignClient.listOrdersByUserId(1L);
+        return orderService.listOrdersByUserId(1L);
     }
 
     @Override
     public String insertOrder() {
-        return orderServiceFeignClient.insertOrder(1L);
+        return orderService.insertOrder(1L);
     }
 }
