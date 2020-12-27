@@ -15,7 +15,7 @@ public class SemaphoreHystrixInvoker extends AbstractHystrixInvoker {
     Semaphore semaphore = new Semaphore(10);
 
     @Override
-    Object invoke(ProceedingJoinPoint proceedingJoinPoint, Method method, Hystrix annotation) {
+    public Object invoke(ProceedingJoinPoint proceedingJoinPoint, Method method, Hystrix annotation) {
         try {
             if (semaphore.tryAcquire()) {
                 return proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
