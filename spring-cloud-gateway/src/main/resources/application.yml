@@ -4,12 +4,25 @@ spring:
   cloud:
     gateway:
       routes:
-        ## 是否能进入到路由，拦截判断
-        - predicates:
+        - id: config_route
+          ## 是否能进入到路由，拦截判断
+          predicates:
             - Path=/gateway/**
           filters:
             - StripPrefix=1
           ## 被拦截到之后要映射到哪儿去
           uri: http://localhost:8088/
+        - id: cookie_route
+          predicates:
+            ##如果cookie里面携带了key = name , value=mic
+            - Cookie=name,mic
+          uri: https://www.baidu.com
+        - id: auth_route
+          predicates:
+            - Path=/auth/**
+            - Auth=jessionid
+          filters:
+            - StripPrefix=1
+          uri: https://www.bing.com
 server:
   port: 9090
