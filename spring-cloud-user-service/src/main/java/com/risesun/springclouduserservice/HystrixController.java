@@ -32,6 +32,7 @@ public class HystrixController implements IUserService{
     @GetMapping("/hystrix/order/{num}")
     public String queryOrder(@PathVariable("num") int num) {
         if (num % 2 == 0) {
+            System.out.println("正常访问");
             return "正常访问";
         }
         return orderService.listOrdersByUserId(1L);
